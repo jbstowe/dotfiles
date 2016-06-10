@@ -12,7 +12,15 @@ set ignorecase
 set mouse=a
 set wrapmargin=0
 set textwidth=0
+set autowriteall                                        "autowrite the file when switching buffers"
+set complete=.,w,b,u                                    "set autocmplete search"
+set nocursorline
+"set relativenumber                                      "Shows relative line numbers"
+"set synmaxcol=140                                     " Syntax coloring lines that are too long just slows down the world
 
+set ttyfast " u got a fast terminal
+set ttyscroll=3
+set lazyredraw " to avoid scrolling problems
 "----------tabs-------"
 set tabstop=4
 set shiftwidth=4
@@ -21,11 +29,9 @@ set expandtab
 
 
 "----------------Visuals--------------"
-colorscheme 256-jungle
-"set guifont=Fira_Code:h18
+colorscheme 256-jungle 
+set guifont=Fura_Code:h18
 "set macligatures 						"allow fancy symbols
-"set background=dark   					 	" Setting dark mode
-"let g:gruvbox_contrast_dark = "hard"
 
 set ruler
 set guioptions-=e						"we dont want gui tabs
@@ -34,18 +40,17 @@ set guioptions=L
 set guioptions=r
 set guioptions=R
 
-
 " Use a blinking upright bar cursor in Insert mode, a blinking block in normal
-if &term == 'xterm-256color' || &term == 'screen-256color'
-    let &t_SI = "\<Esc>[5 q"
-    let &t_EI = "\<Esc>[1 q"
-endif
+"if &term == 'xterm-256color' || &term == 'screen-256color'
+"    let &t_SI = "\<Esc>[5 q"
+"    let &t_EI = "\<Esc>[1 q"
+"endif
 
 
-if exists('$TMUX')
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-endif
+"if exists('$TMUX')
+"    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"endif
     
 
 
@@ -54,10 +59,11 @@ endif
 set hlsearch
 set incsearch
 
+
 "-----------------Mappings--------------"
 "make it easy to edit the Vimrc file
-nmap <Leader>ev :tabedit $MYVIMRC<cr>
-nmap <Leader>es :e ~/.vim/snippets/
+nmap <Leader><leader>ev :tabedit $MYVIMRC<cr>
+nmap <Leader><leader>es :e ~/.vim/snippets/
 nmap <Leader><space> :nohlsearch<cr>						"remove search highlighting
 
 nmap <Leader>f :tag<space>
@@ -71,6 +77,27 @@ nmap <C-H> <C-W><C-H>
 nmap <C-L> <C-W><C-L>
 
 "--------------Plugins--------------"
+"/
+"/ Indent Line
+"/
+let g:indentLine_faster = 1
+
+
+"/
+"/ Syntastic
+"/
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_php_checkers=['php', 'phpcs']
+let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
+
 "/
 "/ NERDTree
 "/
@@ -101,9 +128,20 @@ nmap <leader>r :CtrlPBufTag<cr>
 
 
 "/
-"/ Emmet 
+"/ TagBar (show methods/variables in a modal) 
 "/
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+nmap <leader>2 :TagbarToggle<cr>
+let g:tagbar_autoclose = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_foldlevel = 15
+
+
+"/
+"/ Ultisnips
+"/
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "-----------------Auto Commands--------------"
 "Automatically source the Vimrc file on save
